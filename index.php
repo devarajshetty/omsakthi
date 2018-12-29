@@ -36,7 +36,10 @@ $sql = "SELECT * FROM products";
 $result = mysqli_query($conn, $sql);
 
 
-
+    $bill_sno = "SELECT * FROM biils ORDER BY `id` DESC LIMIT 1";
+    $result_is = mysqli_query($conn, $bill_sno);
+    $bil_no = mysqli_fetch_assoc($result_is);
+    $bil_no = $bil_no['id']+1;
 // mysqli_close($conn);
 
 
@@ -49,7 +52,8 @@ $result = mysqli_query($conn, $sql);
 <p>6A,Duraisamy Layout, Avarampalayam, Peelamedu, Coimbatore-641004</p>
 <hr>
 <form action="bill.php" method="post" name="bill">
-<small>No: </small><input type="text" value="1" name="ser_no" id="ser_no" readonly="readonly">
+<small>No: </small><input type="text" value="<?php echo $bil_no; ?>" name="ser_no" id="ser_no" readonly="readonly">
+<small>Customer Name: </small><input type="text" name="name_cus" id="name_cus">
 <small>Date:</small><input type="text" name="date_is" id="date_is" value="<?php echo date('d-m-Y'); ?>" readonly="readonly">
 <small>Vehile Details:</small><input type="text" name="v_details" id="v_details">
 <small>Vehile No: </small><input type="text" name="v_no" id="v_no">
@@ -83,18 +87,20 @@ $result = mysqli_query($conn, $sql);
  
   
 </table>
-<input type="submit" name="submit" value="print">
+<input type="submit" value="print">
 </form>
-<div id="totala_price_div">
+<form action="allbills.php" method="post"><input type="text" name="bill_date_is" id="bill_date_is" value=""><input type="submit" value="Search">
+</form>
+<!-- <div id="totala_price_div">
 	<small>Total Price: </small><input type="text" readonly="readonly" name="tot_price" id="tot_price">
 </div>	
 <div id="totala_price_div">
 	<small>Rupees: </small><p id="tot_price_rup"></p>
-</div>
+</div> -->
 	</div>
 <hr>
 	<div id="footer">
-<small>Next Due Date: </small><input type="text" name="due" id="due">
+<!-- <small>Next Due Date: </small><input type="text" name="due" id="due"> -->
 <h2>OM SAKTHI AUTO GAARAGE</h2>
 	</div>
 

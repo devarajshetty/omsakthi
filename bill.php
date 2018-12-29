@@ -32,9 +32,9 @@ $companyname = 'OM SAKTHI AUTO GARAGE';
 							<tbody style="font-family:Open Sans, Arial, Helvetica, sans-serif; font-size:13px;">
 							<tr>
 							  
-							  <th width="70" bgcolor="#008489"style="color:#fff; font-size:15px;">Bill</th>
+							  <th width="70" bgcolor="#008489" style="color:#fff; font-size:15px;">Bill</th>
 							  
-							  <th align="right" class="toggleBtn" width="100%"><!-- <a id="download_pdf" style="cursor: pointer; cursor: hand;text-decoration:underline;">Download</a> --> <a onClick="window.print()" TARGET="_blank" style="color:rgb(255, 90, 95); cursor: pointer; cursor: hand;text-decoration:underline;">Print</a></th>
+							  <th align="right" class="toggleBtn" width="100%"><!-- <a id="download_pdf" style="cursor: pointer; cursor: hand;text-decoration:underline;">Download</a> --> <a type="button" id="printing" style="color:rgb(255, 90, 95); cursor: pointer; cursor: hand;text-decoration:underline;">Print</a></th>
 							</tr><tr>
 							  <th width="70" style="color:#000; font-size:15px;"><?php echo 'S.No: '. $_POST['ser_no']; ?></th>
 							  
@@ -50,6 +50,8 @@ $companyname = 'OM SAKTHI AUTO GARAGE';
 							  <th width="75">PRICE</th>
 							</tr>
 							<?php
+							$json_val = json_encode($_POST);
+							echo $json_val;
 							for ($i=0; $i < count($_POST['product_name']); $i++) { 
 								# code...
 							 ?>
@@ -61,7 +63,7 @@ $companyname = 'OM SAKTHI AUTO GARAGE';
 
 ?>
 							
-						 
+					<tr><th align="right" width="75">Total: <?php echo array_sum($_POST['product_price']); ?></th>	</tr> 
 							
 				</tbody></table>
 				</td>       
@@ -96,7 +98,21 @@ var specialElementHandlers = {
 		return true;
 	}
 };
-
+$("#printing").click(function(){
+	var det = '<?php echo $json_val;?>';
+	var name ='<?php echo $_POST["name_cus"];?>'; 
+	$.ajax({
+				  type: "POST",
+				  async: false, 
+				  url: 'http://localhost/omsakthi/bill_save.php',
+				  data: {'details':det,'name': name},
+				  success: function(data){
+				//	window.print();
+					
+				  }
+				  
+				});
+});
     // jQuery(document).ready(function($) {
     // 	$(".toggleBtn").hide();
     // 	var options = {
